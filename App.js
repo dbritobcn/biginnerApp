@@ -1,26 +1,50 @@
 import React from 'react';
-import NewsScreen from './src/components/news/NewsScreen';
-import AlbumsScreen from './src/components/albums/AlbumsScreen';
+import {Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import colors from './src/res/colors';
+import NewsStack from './src/components/news/NewsStack';
+import AlbumsStack from './src/components/albums/AlbumsStack';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="news"
-          component={NewsScreen}
-          options={{title: 'Noticias'}}
+      <Tab.Navigator
+        tabBarOptions={{
+          tintColor: '#fefefe',
+          style: {
+            backgroundColor: colors.zircon,
+          },
+        }}>
+        <Tab.Screen
+          name="News"
+          component={NewsStack}
+          options={{
+            title: 'Noticias',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                style={{tintColor: color, width: size, height: size}}
+                source={require('./src/assets/images/tabs/news.png')}
+              />
+            ),
+          }}
         />
-        <Stack.Screen
-          name="albums"
-          component={AlbumsScreen}
-          options={{title: 'Discos'}}
+        <Tab.Screen
+          name="Albums"
+          component={AlbumsStack}
+          options={{
+            title: 'Discos',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                style={{tintColor: color, width: size, height: size}}
+                source={require('./src/assets/images/tabs/disc.png')}
+              />
+            ),
+          }}
         />
-      </Stack.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
