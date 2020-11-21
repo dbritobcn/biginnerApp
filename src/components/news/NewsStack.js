@@ -1,6 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import NewsScreen from './NewsScreen';
+import NewsDetail from './NewsDetail';
+
 import colors from '../../res/colors';
 
 const Stack = createStackNavigator();
@@ -19,6 +21,11 @@ const NewsStack = () => {
         name="news"
         component={NewsScreen}
         options={{title: 'Noticias'}}
+      />
+      <Stack.Screen
+        name="newsDetail"
+        component={NewsDetail}
+        options={{title: 'Noticia'}}
       />
     </Stack.Navigator>
   );

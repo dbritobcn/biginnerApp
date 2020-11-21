@@ -1,12 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import AlbumsScreen from './AlbumsScreen';
-import AlbumsDetail from './AlbumsDetail';
+import InterviewsScreen from './InterviewsScreen';
 import colors from '../../res/colors';
 
 const Stack = createStackNavigator();
 
-const AlbumsStack = () => {
+const InterviewsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -17,17 +16,12 @@ const AlbumsStack = () => {
         headerTintColor: colors.charade,
       }}>
       <Stack.Screen
-        name="albums"
-        component={AlbumsScreen}
-        options={{title: 'Discos'}}
-      />
-      <Stack.Screen
-        name="albumsDetail"
-        component={AlbumsDetail}
-        options={{title: ''}}
+        name="interviews"
+        component={InterviewsScreen}
+        options={{title: 'Entrevistas'}}
       />
     </Stack.Navigator>
   );
 };
 
-export default AlbumsStack;
+export default InterviewsStack;

@@ -5,6 +5,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import colors from './src/res/colors';
 import NewsStack from './src/components/news/NewsStack';
 import AlbumsStack from './src/components/albums/AlbumsStack';
+import InterviewsStack from './src/components/interviews/InterviewsStack';
+import ConcertsStack from './src/components/concerts/ConcertsStack';
+import VideosStack from './src/components/videos/VideosStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +43,45 @@ const App: () => React$Node = () => {
               <Image
                 style={{tintColor: color, width: size, height: size}}
                 source={require('./src/assets/images/tabs/disc.png')}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Interviews"
+          component={InterviewsStack}
+          options={{
+            title: 'Entrevistas',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                style={{tintColor: color, width: size, height: size}}
+                source={require('./src/assets/images/tabs/mic.png')}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Concerts"
+          component={ConcertsStack}
+          options={{
+            title: 'Conciertos',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                style={{tintColor: color, width: size, height: size}}
+                source={require('./src/assets/images/tabs/concert.png')}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Videos"
+          component={VideosStack}
+          options={{
+            title: 'Videos',
+            tabBarIcon: ({color, size}) => (
+              <Image
+                style={{tintColor: color, width: size, height: size}}
+                source={require('./src/assets/images/tabs/video.png')}
               />
             ),
           }}

@@ -8,6 +8,7 @@ target 'biginnerApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+
   target 'biginnerAppTests' do
     inherit! :complete
     # Pods for testing
