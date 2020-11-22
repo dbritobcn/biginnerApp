@@ -5,6 +5,7 @@ import commonStyles from '../../assets/styles/common';
 import Axios from 'axios';
 import {REQUEST_URL} from './../../libs/constants';
 import colors from '../../res/colors';
+import listStyles from '../../assets/styles/list';
 
 class NewsScreen extends Component {
   state = {
@@ -18,7 +19,7 @@ class NewsScreen extends Component {
 
   render() {
     return (
-      <View>
+      <View style={listStyles.container}>
         {this.state.loading ? (
           <ActivityIndicator
             style={commonStyles.loader}

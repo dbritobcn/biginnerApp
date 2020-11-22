@@ -22,12 +22,12 @@ const AlbumsItem = (props) => {
             uri: props.item._embedded['wp:featuredmedia'][0].source_url,
           }}
         />
-        <View style={listStyles.infoBox}>
+        <View style={commonStyles.infoBox}>
           <View>
-            <Text style={listStyles.title}>{props.item.title.rendered}</Text>
-            <Text style={listStyles.subtitle}>{props.item.acf.artista}</Text>
+            <Text style={listStyles.title}>{props.item.acf.artista}</Text>
+            <Text style={listStyles.subtitle}>{props.item.title.rendered}</Text>
           </View>
-          <Text style={listStyles.meta}>
+          <Text style={commonStyles.meta}>
             {props.item._embedded.author[0].name} {moment(props.item.date).format('DD/MM/YYYY')}
           </Text>
         </View>

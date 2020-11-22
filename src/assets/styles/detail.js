@@ -8,6 +8,11 @@ const detailStyles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
   },
+  featureImage: {
+    width: 125,
+    height: 125,
+    marginRight: 10,
+  },
 });
 
 export default detailStyles;

@@ -17,11 +17,6 @@ const listStyles = StyleSheet.create({
     marginRight: 10,
     width: 75,
   },
-  infoBox: {
-    justifyContent: 'space-between',
-    flex: 1,
-    flexWrap: 'wrap',
-  },
   title: {
     fontSize: 14,
     fontWeight: 'bold',
@@ -29,9 +24,6 @@ const listStyles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  meta: {
-    color: '#888',
   },
 });
 

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {
   ActivityIndicator,
-  Dimensions, Image,
+  Dimensions,
+  Image,
   ScrollView,
   Text,
   View,
@@ -12,8 +13,11 @@ import WebView from 'react-native-webview';
 import {REQUEST_URL} from '../../libs/constants';
 import commonStyles from '../../assets/styles/common';
 import detailStyles from '../../assets/styles/detail';
+import spacingStyles from '../../assets/styles/spacing';
+import positionStyles from '../../assets/styles/position';
 import colors from '../../res/colors';
-import listStyles from '../../assets/styles/list';
+import moment from 'moment';
+import scorePaths from '../../assets/images/score/score';
 
 class AlbumsDetail extends Component {
   state = {
@@ -45,17 +49,27 @@ class AlbumsDetail extends Component {
           <View style={commonStyles.container}>
             <View style={commonStyles.row}>
               <Image
-                style={listStyles.thumbnail}
+                style={detailStyles.featureImage}
                 source={{
                   uri: post[0]._embedded['wp:featuredmedia'][0].source_url,
                 }}
               />
-              <View>
-                <Text style={detailStyles.title}>{post[0].title.rendered}</Text>
-                <Text style={detailStyles.subtitle}>{post[0].acf.artista}</Text>
-                <Text>Año: {post[0].acf.ano}</Text>
-                <Text>Puntuación: {post[0].acf.puntuacion}</Text>
-                <Text>{authors.join(', ')}</Text>
+              <View style={commonStyles.infoBox}>
+                <View>
+                  <Text style={detailStyles.title}>{post[0].title.rendered}</Text>
+                  <Text style={detailStyles.subtitle}>{post[0].acf.artista}</Text>
+                  <Text>{post[0].acf.ano}</Text>
+                </View>
+                <View>
+                  <View style={[commonStyles.row, positionStyles.aic]}>
+                    <Text style={spacingStyles.mr1}>{post[0].acf.puntuacion}</Text>
+                    <Image
+                      style={commonStyles.scoreImage}
+                      source={scorePaths[post[0].acf.puntuacion]}
+                    />
+                  </View>
+                  <Text style={commonStyles.meta}>{authors.join(', ')} {moment(post[0].date).format('DD/MM/YYYY')}</Text>
+                </View>
               </View>
             </View>
             <HTML
@@ -74,7 +88,7 @@ class AlbumsDetail extends Component {
                       style={commonStyles.videoContainer}>
                       <WebView
                         scrollEnabled={false}
-                        source={{ uri: htmlAttribs.src }}
+                        source={{uri: htmlAttribs.src}}
                         style={commonStyles.video}
                       />
                     </View>
@@ -92,7 +106,7 @@ class AlbumsDetail extends Component {
                       style={commonStyles.videoContainer}>
                       <WebView
                         scrollEnabled={false}
-                        source={{ uri: htmlAttribs.src }}
+                        source={{uri: htmlAttribs.src}}
                         style={commonStyles.video}
                       />
                     </View>

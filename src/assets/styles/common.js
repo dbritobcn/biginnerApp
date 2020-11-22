@@ -23,6 +23,18 @@ const commonStyles = StyleSheet.create({
     width: '100%',
     aspectRatio: 16.0 / 9.0,
   },
+  infoBox: {
+    justifyContent: 'space-between',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  meta: {
+    color: '#888',
+  },
+  scoreImage: {
+    height: 12,
+    width: 120,
+  },
 });
 
 export default commonStyles;
