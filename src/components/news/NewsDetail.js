@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Dimensions, Text, View} from 'react-native';
+import {ActivityIndicator, Image, ScrollView, Text, View} from 'react-native';
 import Axios from 'axios';
-import HTML from 'react-native-render-html';
+import HtmlContent from '../shared/HtmlContent';
 import {REQUEST_URL} from '../../libs/constants';
 import commonStyles from '../../assets/styles/common';
 import colors from '../../res/colors';
+import detailStyles from '../../assets/styles/detail';
+import moment from 'moment';
+import spacingStyles from '../../assets/styles/spacing';
 // import {useNavigation} from '@react-navigation/native';
 
 class NewsDetail extends Component {
-  // const navigation = useNavigation();
-  // let post = navigation.getParam('post');
-  // console.log('post *******', post);
   state = {
     post: [],
     loading: false,
@@ -21,7 +21,6 @@ class NewsDetail extends Component {
   }
 
   render() {
-    // let post = this.state.post;
     const {post, loading} = this.state;
     let authors = [];
     if (post.length) {
@@ -29,9 +28,8 @@ class NewsDetail extends Component {
         authors.push(value.name);
       }
     }
-    // console.log('post', post);
     return (
-      <View>
+      <ScrollView>
         {loading || !post.length ? (
           <ActivityIndicator
             style={commonStyles.loader}
@@ -39,17 +37,20 @@ class NewsDetail extends Component {
             size="large"
           />
         ) : (
-          <View>
-            <Text>{post[0].title.rendered}</Text>
-            <Text>{post[0].excerpt.rendered}</Text>
-            <Text>{authors.join(', ')}</Text>
-            <HTML
-              html={post[0].content.rendered}
-              imagesMaxWidth={Dimensions.get('window').width}
+          <View style={commonStyles.container}>
+            <Text style={detailStyles.subtitle}>{post[0].title.rendered}</Text>
+            <Text style={detailStyles.title}>{post[0].acf.subtitle}</Text>
+            <Text style={[commonStyles.meta, spacingStyles.mb1, spacingStyles.mt2]}>{authors.join(', ')} {moment(post[0].date).format('DD/MM/YYYY')}</Text>
+            <Image
+              style={detailStyles.featureImage}
+              source={{
+                uri: post[0]._embedded['wp:featuredmedia'][0].source_url,
+              }}
             />
+            <HtmlContent content={post[0].content.rendered} />
           </View>
         )}
-      </View>
+      </ScrollView>
     );
   }
 

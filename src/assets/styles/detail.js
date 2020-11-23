@@ -9,6 +9,10 @@ const detailStyles = StyleSheet.create({
     fontSize: 16,
   },
   featureImage: {
+    width: '100%',
+    height: 250,
+  },
+  albumImage: {
     width: 125,
     height: 125,
     marginRight: 10,

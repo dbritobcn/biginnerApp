@@ -12,6 +12,12 @@ const commonStyles = StyleSheet.create({
     color: colors.blackPearl,
     marginTop: 60,
   },
+  moreLoader: {
+    color: colors.blackPearl,
+    position: 'absolute',
+    bottom: 20,
+    left: '50%',
+  },
   videoContainer: {
     width: '100%',
     aspectRatio: 16.0/9.0,

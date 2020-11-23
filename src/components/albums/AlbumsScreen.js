@@ -11,10 +11,13 @@ class AlbumsScreen extends Component {
   state = {
     albums: [],
     loading: false,
+    loadingMore: false,
+    page: 1,
+    totalPages: 0,
   };
 
   componentDidMount() {
-    this.fetchData();
+    this._fetchData();
   }
 
   render() {
@@ -31,29 +34,61 @@ class AlbumsScreen extends Component {
             data={this.state.albums}
             renderItem={({item}) => <AlbumsItem item={item} />}
             keyExtractor={(item) => item.id}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0.5}
           />
         )}
+        {this.state.loadingMore ? (
+          <ActivityIndicator
+            style={commonStyles.moreLoader}
+            color={colors.blackPearl}
+            size="large"
+          />
+        ) : null}
       </View>
     );
   }
 
-  fetchData() {
-    this.setState({loading: true});
-    Axios.get(`${REQUEST_URL}/posts?categories=2&per_page=20&_embed`)
+  _fetchData() {
+    const {page} = this.state;
+    if (page === 1) {
+      this.setState({loading: true});
+    }
+    Axios.get(
+      `${REQUEST_URL}/posts?categories=2&page=${page}&per_page=20&_embed`,
+    )
       .then((response) => {
+        const totalPages = response.headers['x-wp-totalpages'];
         this.setState({
-          albums: response.data,
+          albums:
+            page === 1
+              ? Array.from(response.data)
+              : [...this.state.albums, ...response.data],
           loading: false,
+          loadingMore: false,
+          totalPages: totalPages,
         });
-        console.log('Bloom +++', response.data[0]);
-        console.log('Pages', response.headers['x-wp-totalpages']);
       })
       .catch((error) => {
         alert('Hubo un error cargando los discos');
-        this.setState({loading: false});
+        this.setState({loading: false, loadingMore: false});
         console.log('error', error);
       });
   }
+
+  _handleLoadMore = () => {
+    const {totalPages, page} = this.state;
+    if (totalPages <= page) return;
+    this.setState(
+      (prevState, nextProps) => ({
+        page: prevState.page + 1,
+        loadingMore: true,
+      }),
+      () => {
+        this._fetchData();
+      },
+    );
+  };
 }
 
 export default AlbumsScreen;

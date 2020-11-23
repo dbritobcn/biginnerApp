@@ -10,6 +10,7 @@ import {
 import Axios from 'axios';
 import HTML from 'react-native-render-html';
 import WebView from 'react-native-webview';
+import HtmlContent from '../shared/HtmlContent';
 import {REQUEST_URL} from '../../libs/constants';
 import commonStyles from '../../assets/styles/common';
 import detailStyles from '../../assets/styles/detail';
@@ -49,7 +50,7 @@ class AlbumsDetail extends Component {
           <View style={commonStyles.container}>
             <View style={commonStyles.row}>
               <Image
-                style={detailStyles.featureImage}
+                style={detailStyles.albumImage}
                 source={{
                   uri: post[0]._embedded['wp:featuredmedia'][0].source_url,
                 }}
@@ -62,7 +63,9 @@ class AlbumsDetail extends Component {
                 </View>
                 <View>
                   <View style={[commonStyles.row, positionStyles.aic]}>
-                    <Text style={spacingStyles.mr1}>{post[0].acf.puntuacion}</Text>
+                    <Text style={spacingStyles.mr1}>
+                      {post[0].acf.puntuacion}
+                    </Text>
                     <Image
                       style={commonStyles.scoreImage}
                       source={scorePaths[post[0].acf.puntuacion]}
@@ -72,48 +75,7 @@ class AlbumsDetail extends Component {
                 </View>
               </View>
             </View>
-            <HTML
-              html={post[0].content.rendered}
-              contentWidth={Dimensions.get('window').width}
-              renderers={{
-                iframe: (
-                  htmlAttribs,
-                  children,
-                  convertedCSSStyles,
-                  passProps,
-                ) => {
-                  return (
-                    <View
-                      key={passProps.key}
-                      style={commonStyles.videoContainer}>
-                      <WebView
-                        scrollEnabled={false}
-                        source={{uri: htmlAttribs.src}}
-                        style={commonStyles.video}
-                      />
-                    </View>
-                  );
-                },
-                video: (
-                  htmlAttribs,
-                  children,
-                  convertedCSSStyles,
-                  passProps,
-                ) => {
-                  return (
-                    <View
-                      key={passProps.key}
-                      style={commonStyles.videoContainer}>
-                      <WebView
-                        scrollEnabled={false}
-                        source={{uri: htmlAttribs.src}}
-                        style={commonStyles.video}
-                      />
-                    </View>
-                  );
-                },
-              }}
-            />
+            <HtmlContent content={post[0].content.rendered} />
           </View>
         )}
       </ScrollView>

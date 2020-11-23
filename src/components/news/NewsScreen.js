@@ -11,10 +11,13 @@ class NewsScreen extends Component {
   state = {
     news: [],
     loading: false,
+    loadingMore: false,
+    page: 1,
+    totalPages: 0,
   };
 
   componentDidMount() {
-    this.fetchData();
+    this._fetchData();
   }
 
   render() {
@@ -31,28 +34,60 @@ class NewsScreen extends Component {
             data={this.state.news}
             renderItem={({item}) => <NewsItem item={item} />}
             keyExtractor={(item) => item.id}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0.5}
           />
         )}
+        {this.state.loadingMore ? (
+          <ActivityIndicator
+            style={commonStyles.moreLoader}
+            color={colors.blackPearl}
+            size="large"
+          />
+        ) : null}
       </View>
     );
   }
 
-  fetchData() {
-    this.setState({loading: true});
-    Axios.get(`${REQUEST_URL}/posts?categories=1&per_page=20&_embed`)
+  _fetchData() {
+    const {page} = this.state;
+    if (page === 1) {
+      this.setState({loading: true});
+    }
+    Axios.get(
+      `${REQUEST_URL}/posts?categories=1&page=${page}&per_page=20&_embed`,
+    )
       .then((response) => {
         this.setState({
-          news: response.data,
+          news:
+            page === 1
+              ? Array.from(response.data)
+              : [...this.state.news, ...response.data],
           loading: false,
+          loadingMore: false,
+          totalPages: response.headers['x-wp-totalpages'],
         });
-        console.log('response', response.headers['x-wp-totalpages']);
       })
       .catch((error) => {
         alert('Hubo un error cargando las noticias');
-        this.setState({loading: false});
+        this.setState({loading: false, loadingMore: false});
         console.log('error', error);
       });
   }
-};
+
+  _handleLoadMore = () => {
+    const {totalPages, page} = this.state;
+    if (totalPages <= page) return;
+    this.setState(
+      (prevState, nextProps) => ({
+        page: prevState.page + 1,
+        loadingMore: true,
+      }),
+      () => {
+        this._fetchData();
+      },
+    );
+  };
+}
 
 export default NewsScreen;
